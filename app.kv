@@ -1,11 +1,60 @@
-# Ajoutez ce fichier chat.kv
-#:kivy 2.0.0
+<BoxLayout>:
+    padding: 10
+    spacing: 10
 
-<RoundedMessage@Label>:
-    canvas.before:
-        Color:
-            rgba: (0.2, 0.6, 1, 1) if self.is_user else (0.9, 0.9, 0.9, 1)
-        RoundedRectangle:
-            pos: self.pos
-            size: self.size
-            radius: [15, 15, 15, 15]
+<Label>:
+    font_size: 16
+    color: 0, 0, 0, 1
+
+<Image>:
+    size_hint: None, None
+    size: 40, 40
+
+# Root widget
+BoxLayout:
+    orientation: 'vertical'
+
+    # Barre de titre
+    BoxLayout:
+        size_hint_y: 0.1
+        padding: 10
+        spacing: 10
+        canvas.before:
+            Color:
+                rgba: 0.2, 0.6, 1, 1  # Couleur bleue Messenger
+            Rectangle:
+                size: self.size
+                pos: self.pos
+        Label:
+            text: "Messenger"
+            font_size: 24
+            color: 1, 1, 1, 1
+            halign: "center"
+            valign: "middle"
+
+    # Zone de messages (ScrollView)
+    ScrollView:
+        size_hint_y: 0.8
+        BoxLayout:
+            id: message_layout
+            orientation: 'vertical'
+            size_hint_y: None
+            height: self.minimum_height
+            padding: 10
+            spacing: 10
+
+    # Zone de saisie
+    BoxLayout:
+        size_hint_y: 0.1
+        padding: 10
+        spacing: 10
+        TextInput:
+            id: message_input
+            size_hint_x: 0.8
+            multiline: False
+            font_size: 16
+            hint_text: "Tapez votre message..."
+        Button:
+            text: "Envoyer"
+            size_hint_x: 0.2
+            on_press: app.send_message(self)
